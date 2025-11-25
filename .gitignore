@@ -1,0 +1,21 @@
+file-monitor
+bpf_bpfel.go
+bpf_bpfel.o
+bpf_bpfeb.go
+bpf_bpfeb.o
+*.log
+
+
+# Added by cargo
+
+/target
+Cargo.lock
+*.log
+files.txt
+
+
+# Added by cargo
+#
+# already existing elements were commented out
+
+#/target

@@ -1,0 +1,35 @@
+version: '3.8'
+
+services:
+  daemon:
+    build:
+      context: .
+      dockerfile: Dockerfile.build
+    container_name: container-tracing-daemon
+    ports:
+      - "8080:8080"
+    networks:
+      - tracing-net
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+  test:
+    build:
+      context: .
+      dockerfile: Dockerfile.test
+    container_name: tracing-test
+    depends_on:
+      daemon:
+        condition: service_healthy
+    environment:
+      - DAEMON_HOST=daemon
+      - DAEMON_PORT=8080
+    networks:
+      - tracing-net
+
+networks:
+  tracing-net:
+    driver: bridge
